@@ -48,17 +48,17 @@ def selection(population):
 
 
 def crossover(parents):
-    # random indexes to to cross states with
+    
     cross_points = random.sample(range(NUM_QUEENS), MIXING_NUMBER - 1)
     offsprings = []
 
-    # all permutations of parents
+    # parents
     permutations = list(itertools.permutations(parents, MIXING_NUMBER))
 
     for perm in permutations:
         offspring = []
 
-        # track starting index of sublist
+      
         start_pt = 0
 
         for parent_idx, cross_point in enumerate(cross_points):  # doesn't account for last parent
@@ -67,7 +67,7 @@ def crossover(parents):
             parent_part = perm[parent_idx][start_pt:cross_point]
             offspring.append(parent_part)
 
-            # update index pointer
+           
             start_pt = cross_point
 
         # last parent
@@ -75,7 +75,7 @@ def crossover(parents):
         parent_part = last_parent[cross_point:]
         offspring.append(parent_part)
 
-        # flatten the list since append works kinda differently
+        
         offsprings.append(list(itertools.chain(*offspring)))
 
     return offsprings
@@ -104,16 +104,16 @@ def print_found_goal(population, to_print=True):
     return False
 
 def evolution(population):
-    #select individuals to become parents
+    
     parents = selection(population)
 
-    #recombination. Create new offsprings
+    
     offsprings = crossover(parents)
 
-    #mutation
+    
     offsprings = list(map(mutate, offsprings))
 
-    #introduce top-scoring individuals from previous generation and keep top fitness individuals
+    
     new_gen = offsprings
 
     for ind in population:
@@ -136,7 +136,7 @@ def generate_population():
 
 generation = 0
 
-# generate random population
+
 population = generate_population()
 
 while not print_found_goal(population):
