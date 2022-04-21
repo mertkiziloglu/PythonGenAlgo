@@ -1,7 +1,7 @@
-#____________________BIOINFORMATICA______________________#
+
 ####----------------Needleman-Wunsch-----------------####
 
-#Created by Bineet Kumar Mohanta
+
 
 # Importing Modules
 import numpy as np
