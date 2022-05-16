@@ -1,34 +1,29 @@
 
-####----------------Needleman-Wunsch-----------------####
-
-
-
-# Importing Modules
 import numpy as np
 
-#Ask for sequences from the user
+#if Ask for sequences from the user
 #sequence_1 = input("Enter or paste sequence 1:")
 #sequence_2 = input("Enter or paste sequence 2:")
 
-sequence_1 = "ATCGT"
-sequence_2 = "ACGT"
+sequence_1 = "ATTCTTA"
+sequence_2 = "TTTCT"
 
-#Creat Matrices
-main_matrix = np.zeros((len(sequence_1)+1,len(sequence_2)+1))
+#Create Matrices
+main_matrix = np.zeros((len(sequence_1)+1,len(sequence_2)+1))   #Create a matrix with the size of the sequences
 match_checker_matrix = np.zeros((len(sequence_1),len(sequence_2)))
 
-# Providing the scores for match ,mismatch and gap
-match_reward = 1
-mismatch_penalty = -1
+# Providing the scores for match ,mismatch and gap_penalty
+match = 1
+mismatch = -1
 gap_penalty = -2
 
 #Fill the match checker matrix accrording to match or mismatch
 for i in range(len(sequence_1)):
     for j in range(len(sequence_2)):
         if sequence_1[i] == sequence_2[j]:
-            match_checker_matrix[i][j]= match_reward
+            match_checker_matrix[i][j]= match
         else:
-            match_checker_matrix[i][j]= mismatch_penalty
+            match_checker_matrix[i][j]= mismatch
 
 #print(match_checker_matrix)
 
@@ -46,36 +41,36 @@ for i in range(1,len(sequence_1)+1):
                                 main_matrix[i-1][j]+gap_penalty,
                                 main_matrix[i][j-1]+ gap_penalty)
 
-#print(main_matrix)
+print(main_matrix)
 
 # STEP 3 : Traceback
 
 aligned_1 = ""
 aligned_2 = ""
 
-ti = len(sequence_1)
-tj = len(sequence_2)
+sequence_len = len(sequence_1)
+sequence2_len = len(sequence_2)
 
-while(ti >0 and tj > 0):
+while(sequence_len > 0 and sequence2_len > 0):
 
-    if (ti >0 and tj > 0 and main_matrix[ti][tj] == main_matrix[ti-1][tj-1]+ match_checker_matrix[ti-1][tj-1]):
+    if (sequence_len >0 and sequence2_len > 0 and main_matrix[sequence_len][sequence2_len] == main_matrix[sequence_len - 1][sequence2_len - 1]+ match_checker_matrix[sequence_len - 1][sequence2_len - 1]):
 
-        aligned_1 = sequence_1[ti-1] + aligned_1
-        aligned_2 = sequence_2[tj-1] + aligned_2
+        aligned_1 = sequence_1[sequence_len - 1] + aligned_1
+        aligned_2 = sequence_2[sequence2_len - 1] + aligned_2
 
-        ti = ti - 1
-        tj = tj - 1
+        sequence_len = sequence_len - 1
+        sequence2_len = sequence2_len - 1
     
-    elif(ti > 0 and main_matrix[ti][tj] == main_matrix[ti-1][tj] + gap_penalty):
-        aligned_1 = sequence_1[ti-1] + aligned_1
+    elif(sequence_len > 0 and main_matrix[sequence_len][sequence2_len] == main_matrix[sequence_len - 1][sequence2_len] + gap_penalty):
+        aligned_1 = sequence_1[sequence_len - 1] + aligned_1
         aligned_2 = "-" + aligned_2
 
-        ti = ti -1
+        sequence_len = sequence_len - 1
     else:
         aligned_1 = "-" + aligned_1
-        aligned_2 = sequence_2[tj-1] + aligned_2
+        aligned_2 = sequence_2[sequence2_len - 1] + aligned_2
 
-        tj = tj - 1
+        sequence2_len = sequence2_len - 1
 
 #test
 print(aligned_1)
